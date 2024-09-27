@@ -14,10 +14,24 @@
   "contributes": {
     "commands": [
       {
-        "command": "drupal-sdc-autocomplete.helloWorld",
-        "title": "Hello World"
+        "command": "drupalSDC.refreshIndex",
+        "title": "Drupal SDC: Refresh Component Index"
       }
-    ]
+    ],
+      "configuration": {
+          "type": "object",
+          "title": "Drupal SDC Extension Configuration",
+          "properties": {
+              "drupalSDC.componentDirectories": {
+                  "type": "array",
+                  "default": [
+                      "web/themes/custom/*/components/**",
+                      "web/modules/custom/*/components/**"
+                  ],
+                  "description": "An array of glob patterns to the component directories."
+              }
+          }
+      }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
