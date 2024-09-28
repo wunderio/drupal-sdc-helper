@@ -19,7 +19,7 @@ export class ComponentCompletionItemProvider implements vscode.CompletionItemPro
     return components.map(component => {
       const item = new vscode.CompletionItem(
         component.id,
-        vscode.CompletionItemKind.Module,
+        vscode.CompletionItemKind.File,
       );
       item.detail = 'Drupal SDC Component';
       item.documentation = new vscode.MarkdownString(`Path: ${component.path}`);

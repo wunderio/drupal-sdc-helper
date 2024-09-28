@@ -19,6 +19,8 @@ export async function getComponentIndex(): Promise<Component[]> {
 
   const components: Component[] = [];
 
+  outputChannel.appendLine(`Directories: ${JSON.stringify(componentDirs, null, 2)}`);
+
   for (const dirPattern of componentDirs) {
     const pattern = new vscode.RelativePattern(
       vscode.workspace.workspaceFolders![0],
@@ -39,12 +41,17 @@ export async function getComponentIndex(): Promise<Component[]> {
 
   // Debug output to Output window
   outputChannel.appendLine(`Components: ${JSON.stringify(components, null, 2)}`);
-  outputChannel.show();
+  // If no components were found, show a message in the Output window
+  if (components.length === 0) {
+    outputChannel.appendLine('No components found in the project');
+  }
+  // outputChannel.show();
 
   return components;
 }
 
 export function refreshComponentIndex() {
+  outputChannel.appendLine('Refreshing component index...');
   componentCache = null;
 }
 

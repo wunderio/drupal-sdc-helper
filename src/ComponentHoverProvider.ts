@@ -1,12 +1,12 @@
-// src/ComponentDefinitionProvider.ts
+// src/ComponentHoverProvider.ts
 import * as vscode from 'vscode';
 import { getComponentIndex } from './ComponentIndexer';
 
-export class ComponentDefinitionProvider implements vscode.DefinitionProvider {
-  public async provideDefinition(
+export class ComponentHoverProvider implements vscode.HoverProvider {
+  public async provideHover(
     document: vscode.TextDocument,
     position: vscode.Position,
-  ): Promise<vscode.Location | null> {
+  ): Promise<vscode.Hover | null> {
     const wordRange = document.getWordRangeAtPosition(position, /[A-Za-z0-9_:\/-]+/);
     if (!wordRange) {
       return null;
@@ -24,8 +24,9 @@ export class ComponentDefinitionProvider implements vscode.DefinitionProvider {
 
     if (component) {
       const uri = vscode.Uri.file(component.path);
-      const location = new vscode.Location(uri, new vscode.Position(0, 0));
-      return location;
+      const markdownString = new vscode.MarkdownString(`[Open ${component.id}](${uri.toString()})`);
+      markdownString.isTrusted = true; // Allow the link to be clicked
+      return new vscode.Hover(markdownString, wordRange);
     }
 
     return null;
