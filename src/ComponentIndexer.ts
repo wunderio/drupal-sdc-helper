@@ -53,15 +53,18 @@ export async function getComponentIndex(): Promise<Component[]> {
 export function refreshComponentIndex() {
   outputChannel.appendLine('Refreshing component index...');
   componentCache = null;
+  getComponentIndex().then(components => {
+    outputChannel.appendLine(`Component index refreshed with ${components.length} components.`);
+  });
 }
 
 function getComponentId(componentPath: string): string | null {
   // Adjust this regex to match your project's structure
-  const match = componentPath.match(/(?:\/|\\)([a-zA-Z0-9_]+)(?:\/|\\)components(?:\/|\\)(.+?)(?:\/|\\)([^\/\\]+\.twig)$/);
+  const match = componentPath.match(/(?:\/|\\)([a-zA-Z0-9_]+)(?:\/|\\)components(?:\/|\\)(.+?)(?:\/|\\)([^\/\\]+)\.twig$/);
 
   if (match) {
     const moduleName = match[1];
-    const componentName = match[2].replace(/\\/g, '/').replace(/^\d+-/, '');
+    const componentName = match[3].replace(/\\/g, '/').replace(/^\d+-/, '');
     return `${moduleName}:${componentName}`;
   }
 

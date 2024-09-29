@@ -1,4 +1,3 @@
-// src/ComponentCompletionItemProvider.ts
 import * as vscode from 'vscode';
 import { getComponentIndex } from './ComponentIndexer';
 
@@ -10,7 +9,7 @@ export class ComponentCompletionItemProvider implements vscode.CompletionItemPro
     const linePrefix = document.lineAt(position).text.substr(0, position.character);
 
     // Check if the user is typing an include or embed statement
-    if (!linePrefix.match(/({%|{{)\s*(include|embed)\s*['"]/)) {
+    if (!linePrefix.match(/({%|{{)\s*(include|embed)\s*[\'"]/)) {
       return [];
     }
 
@@ -19,10 +18,29 @@ export class ComponentCompletionItemProvider implements vscode.CompletionItemPro
     return components.map(component => {
       const item = new vscode.CompletionItem(
         component.id,
-        vscode.CompletionItemKind.File,
+        vscode.CompletionItemKind.File, // Changed to File for IntelliSense-like completion
       );
       item.detail = 'Drupal SDC Component';
       item.documentation = new vscode.MarkdownString(`Path: ${component.path}`);
+
+      // Extract the part before the cursor that includes the machine name (like "vayla:")
+      const machineNameMatch = linePrefix.match(/[A-Za-z0-9_-]+:$/);
+      let insertText = component.id;
+
+      // If the machine name (like "vayla:") is already present, remove it from the inserted text
+      if (machineNameMatch) {
+        const typedPrefix = machineNameMatch[0];
+        if (component.id.startsWith(typedPrefix)) {
+          insertText = component.id.replace(typedPrefix, ''); // Avoid re-adding the prefix
+        }
+      }
+
+      // Set the insertText for the completion item
+      item.insertText = insertText;
+
+      // Optionally, re-trigger the suggestion list after a completion is inserted
+      item.command = { command: 'editor.action.triggerSuggest', title: 'Re-trigger completions...' };
+      
       return item;
     });
   }
