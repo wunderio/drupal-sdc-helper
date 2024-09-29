@@ -7,7 +7,7 @@ export interface Component {
 }
 
 let componentCache: Component[] | null = null;
-const outputChannel = vscode.window.createOutputChannel('ComponentIndexer');
+const outputChannel = vscode.window.createOutputChannel('Drupal SDC');
 
 export async function getComponentIndex(): Promise<Component[]> {
   if (componentCache) {
@@ -30,6 +30,12 @@ export async function getComponentIndex(): Promise<Component[]> {
 
     for (const file of files) {
       const componentPath = file.fsPath;
+
+      // Exclude *.stories.twig files
+      if (componentPath.endsWith('.stories.twig')) {
+        continue;
+      }
+
       const componentId = getComponentId(componentPath);
       if (componentId) {
         components.push({ id: componentId, path: componentPath });
@@ -64,7 +70,7 @@ function getComponentId(componentPath: string): string | null {
 
   if (match) {
     const moduleName = match[1];
-    const componentName = match[3].replace(/\\/g, '/').replace(/^\d+-/, '');
+    const componentName = match[3].replace(/\\/g, '/').replace(/^\d+-/, '').replace(/\.twig$/, '');
     return `${moduleName}:${componentName}`;
   }
 

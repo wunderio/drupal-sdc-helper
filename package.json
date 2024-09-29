@@ -2,7 +2,7 @@
   "name": "drupal-sdc-autocomplete",
   "displayName": "Drupal SDC Autocomplete",
   "description": "Provides code autocomplete for Drupal's Single Directory Components",
-  "version": "0.0.20",
+  "version": "0.0.24",
   "engines": {
     "vscode": "^1.93.0"
   },
