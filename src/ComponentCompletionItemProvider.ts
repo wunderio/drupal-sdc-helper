@@ -9,7 +9,7 @@ export class ComponentCompletionItemProvider implements vscode.CompletionItemPro
     const linePrefix = document.lineAt(position).text.substr(0, position.character);
 
     // Check if the user is typing an include or embed statement
-    if (!linePrefix.match(/({%|{{)\s*(include|embed)\s*[\'"]/)) {
+    if (!linePrefix.match(/({%|{{)\s*(include|embed)\s*\(?\s*[\'"]/)) {
       return [];
     }
 
