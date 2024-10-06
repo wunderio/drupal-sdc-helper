@@ -2,7 +2,7 @@
 
 **Enhance your Drupal 10 development workflow with autocomplete and navigation support for Single Directory Components (SDC) in Twig files.**
 
-Developed during Guild Day @ [![Wunder](/assets/wunder.ico "Wunder")wunder.io](https://wunder.io/)
+Developed during Guild Day @ [wunder.io](https://wunder.io/)
 
 ## Features
 

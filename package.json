@@ -7,7 +7,8 @@
   "type": "git",
   "url": "https://github.com/wunderio/drupal-sdc-helper.git"
   },
-  "version": "0.0.35",
+  "version": "0.0.36",
+  "publisher": "davis-are",
   "pricing": "Free",
   "keywords": [
     "Drupal",
