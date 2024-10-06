@@ -1,4 +1,4 @@
-# Drupal SDC Extension for VSCode
+# Drupal SDC Helper
 
 **Enhance your Drupal 10 development workflow with autocomplete and navigation support for Single Directory Components in Twig files.**
 
@@ -31,7 +31,7 @@
 
 **Settings:**
 
-- `drupalSDC.componentDirectories`: An array of glob patterns pointing to your component directories.
+- `drupalSDC.componentDirectories`: An array of glob patterns pointing to your component directories relative to the workspace.
 
 **Example:**
 
