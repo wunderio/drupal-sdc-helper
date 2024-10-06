@@ -9,6 +9,12 @@
   },
   "version": "0.0.35",
   "pricing": "Free",
+  "keywords": [
+    "Drupal",
+    "Drupal SDC",
+    "Drupal Single Directory Components"
+  ],
+  "icon": "assets/logo.png",
   "engines": {
     "vscode": "^1.93.0"
   },
@@ -25,7 +31,7 @@
     "commands": [
       {
         "command": "drupalSDC.refreshIndex",
-        "title": "Drupal SDC: Refresh Component Index"
+        "title": "Drupal SDC Helper: Refresh Component Index"
       }
     ],
       "configuration": {
