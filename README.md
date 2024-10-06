@@ -1,6 +1,8 @@
 # Drupal SDC Helper
 
-**Enhance your Drupal 10 development workflow with autocomplete and navigation support for Single Directory Components in Twig files.**
+**Enhance your Drupal 10 development workflow with autocomplete and navigation support for Single Directory Components (SDC) in Twig files.**
+
+Developed during Guild Day @ [![Wunder](/assets/wunder.ico "Wunder")wunder.io](https://wunder.io/)
 
 ## Features
 
@@ -8,16 +10,6 @@
 - **Go-to Definition**: Use `Ctrl + Click` to navigate directly to the component's definition file.
 - **Configurable Paths**: Customize the directories where your components are located.
 
-## Installation
-
-1. **From VSIX File:**
-   - Download the latest `.vsix` file from the releases.
-   - In VSCode, go to the Extensions view (`Ctrl+Shift+X`).
-   - Click on the ellipsis (`...`) and select **Install from VSIX...**.
-   - Navigate to the downloaded file and install.
-
-2. **From Marketplace:**
-   - (If you plan to publish it) Search for "Drupal SDC Extension" in the VSCode Marketplace and install.
 
 ## Usage
 

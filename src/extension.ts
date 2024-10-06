@@ -3,6 +3,7 @@ import * as vscode from 'vscode';
 import { ComponentCompletionItemProvider } from './ComponentCompletionItemProvider';
 import { ComponentDefinitionProvider } from './ComponentDefinitionProvider';
 import { refreshComponentIndex } from './ComponentIndexer';
+import { ComponentHoverProvider } from './ComponentHoverProvider';
 
 export function activate(context: vscode.ExtensionContext) {
   const completionProvider = vscode.languages.registerCompletionItemProvider(
@@ -16,7 +17,12 @@ export function activate(context: vscode.ExtensionContext) {
     new ComponentDefinitionProvider(),
   );
 
-  context.subscriptions.push(completionProvider, definitionProvider);
+  const hoverProvider = vscode.languages.registerHoverProvider(
+    { language: 'twig', scheme: 'file' },
+    new ComponentHoverProvider(),
+  );
+
+  context.subscriptions.push(completionProvider, definitionProvider, hoverProvider);
 
   // Watch for changes in component files
   const watcher = vscode.workspace.createFileSystemWatcher('**/*.twig');

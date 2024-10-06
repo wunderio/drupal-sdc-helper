@@ -1,8 +1,14 @@
 {
-  "name": "drupal-sdc-autocomplete",
-  "displayName": "Drupal SDC Autocomplete",
-  "description": "Provides code autocomplete for Drupal's Single Directory Components",
-  "version": "0.0.32",
+  "name": "drupal-sdc-helper",
+  "displayName": "Drupal SDC Helper",
+  "author": "Dāvis Āre <davis.are@wunder.io>",
+  "description": "Provides code intellisense for Drupal's Single Directory Components",
+  "repository": {
+  "type": "git",
+  "url": "https://github.com/wunderio/drupal-sdc-helper.git"
+  },
+  "version": "0.0.35",
+  "pricing": "Free",
   "engines": {
     "vscode": "^1.93.0"
   },
