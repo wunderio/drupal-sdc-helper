@@ -7,7 +7,7 @@
   "type": "git",
   "url": "https://github.com/wunderio/drupal-sdc-helper.git"
   },
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publisher": "davis-are",
   "pricing": "Free",
   "keywords": [
@@ -31,7 +31,7 @@
   "contributes": {
     "commands": [
       {
-        "command": "drupalSDC.refreshIndex",
+        "command": "drupalSDCHelper.refreshIndex",
         "title": "Drupal SDC Helper: Refresh Component Index"
       }
     ],
@@ -39,7 +39,7 @@
           "type": "object",
           "title": "Drupal SDC Extension Configuration",
           "properties": {
-              "drupalSDC.componentDirectories": {
+              "drupalSDCHelper.componentDirectories": {
                   "type": "array",
                   "default": [
                       "web/themes/custom/*/components/**",

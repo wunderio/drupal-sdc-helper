@@ -1,10 +1,10 @@
 # Drupal SDC Helper
 
-**Enhance your Drupal 10 development workflow with autocomplete and navigation support for Single Directory Components (SDC) in Twig files.**
+**Enhance your Drupal 10 development workflow with autocomplete and navigation support for projects using Single Directory Components (SDC) approach.**
 
-Developed during Guild Day @ [wunder.io](https://wunder.io/)
+Developed during Learning Day at [wunder.io](https://wunder.io/).
 
-![preview](assets/preview.gif)
+![preview](./assets/preview.gif)
 
 ## Configuration
 
@@ -14,7 +14,7 @@ Index is regenrated when a component (.twig) is saved.
 **Example:**
 
 ```json
-"drupalSDC.componentDirectories": [
+"drupalSDCHelper.componentDirectories": [
   "web/themes/custom/*/components/**",
   "web/modules/custom/*/components/**"
 ]
@@ -28,6 +28,10 @@ Index is regenrated when a component (.twig) is saved.
 ## Usage
 
 - Open a Twig file in your Drupal project.
-- Start typing an `include` or `embed` statements and autofill options should be presented when typing `:` symbol.
+- Start typing an `include` or `embed` statements and autofill options should be presented.
 - Press `Enter` to accept a suggestion.
 - Hold `Ctrl` and click on a component ID to open its definition file.
+
+## Contributing
+
+Are you interested in improving this extension further? Feel free to contribute by creating a pull request at [Github](https://github.com/wunderio/drupal-sdc-helper).

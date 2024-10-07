@@ -34,7 +34,7 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(watcher);
 
   // Register the refresh index command
-  const refreshCommand = vscode.commands.registerCommand('drupalSDC.refreshIndex', () => {
+  const refreshCommand = vscode.commands.registerCommand('drupalSDCHelper.refreshIndex', () => {
     refreshComponentIndex();
     vscode.window.showInformationMessage('Drupal SDC component index refreshed.');
   });

@@ -14,7 +14,7 @@ export async function getComponentIndex(): Promise<Component[]> {
     return componentCache;
   }
 
-  const config = vscode.workspace.getConfiguration('drupalSDC');
+  const config = vscode.workspace.getConfiguration('drupalSDCHelper');
   const componentDirs = config.get<string[]>('componentDirectories') || [];
 
   const components: Component[] = [];
