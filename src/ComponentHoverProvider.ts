@@ -1,5 +1,7 @@
-// src/ComponentHoverProvider.ts
 import * as vscode from 'vscode';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as yaml from 'js-yaml';
 import { getComponentIndex } from './ComponentIndexer';
 
 export class ComponentHoverProvider implements vscode.HoverProvider {
@@ -24,7 +26,32 @@ export class ComponentHoverProvider implements vscode.HoverProvider {
 
     if (component) {
       const uri = vscode.Uri.file(component.path);
-      const markdownString = new vscode.MarkdownString(`[Open ${component.id}](${uri.toString()})`);
+      const ymlPath = component.path.replace(/\.twig$/, '.component.yml');
+      let componentName = '';
+      let ymlContent = '';
+
+      // Read the .component.yml
+      if (fs.existsSync(ymlPath)) {
+        ymlContent = fs.readFileSync(ymlPath, 'utf8');
+        const ymlData = yaml.load(ymlContent) as { name?: string; $schema?: string };
+
+        componentName = ymlData.name || '';
+
+        // Remove the $schema property for better readability
+        delete ymlData.$schema;
+
+        // Convert the YAML data back to a string
+        ymlContent = yaml.dump(ymlData);
+      }
+
+      const markdownString = new vscode.MarkdownString(`[Open: ${component.id}](${uri.toString()})`);
+      if (componentName) {
+        markdownString.appendMarkdown(`\n\n**Name:** ${componentName}`);
+      }
+      if (ymlContent) {
+        markdownString.appendMarkdown(`\n\n\`\`\`yaml\n${ymlContent}\n\`\`\``);
+      }
+
       markdownString.isTrusted = true; // Allow the link to be clicked
       return new vscode.Hover(markdownString, wordRange);
     }

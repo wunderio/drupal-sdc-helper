@@ -4,10 +4,10 @@
   "author": "Dāvis Āre <davis.are@wunder.io>",
   "description": "Provides code intellisense for Drupal's Single Directory Components",
   "repository": {
-  "type": "git",
-  "url": "https://github.com/wunderio/drupal-sdc-helper.git"
+    "type": "git",
+    "url": "https://github.com/wunderio/drupal-sdc-helper.git"
   },
-  "version": "1.0.2",
+  "version": "1.0.3",
   "publisher": "davis-are",
   "pricing": "Free",
   "keywords": [
@@ -35,20 +35,20 @@
         "title": "Drupal SDC Helper: Refresh Component Index"
       }
     ],
-      "configuration": {
-          "type": "object",
-          "title": "Drupal SDC Extension Configuration",
-          "properties": {
-              "drupalSDCHelper.componentDirectories": {
-                  "type": "array",
-                  "default": [
-                      "web/themes/custom/*/components/**",
-                      "web/modules/custom/*/components/**"
-                  ],
-                  "description": "An array of glob patterns to the component directories."
-              }
-          }
+    "configuration": {
+      "type": "object",
+      "title": "Drupal SDC Extension Configuration",
+      "properties": {
+        "drupalSDCHelper.componentDirectories": {
+          "type": "array",
+          "default": [
+            "web/themes/custom/*/components/**",
+            "web/modules/custom/*/components/**"
+          ],
+          "description": "An array of glob patterns to the component directories."
+        }
       }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
@@ -65,16 +65,18 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.93.0",
+    "@types/js-yaml": "^4.0.9",
     "@types/mocha": "^10.0.7",
     "@types/node": "20.x",
+    "@types/vscode": "^1.93.0",
     "@typescript-eslint/eslint-plugin": "^8.3.0",
     "@typescript-eslint/parser": "^8.3.0",
-    "eslint": "^9.9.1",
-    "esbuild": "^0.23.1",
-    "npm-run-all": "^4.1.5",
-    "typescript": "^5.5.4",
     "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1"
+    "@vscode/test-electron": "^2.4.1",
+    "esbuild": "^0.23.1",
+    "eslint": "^9.9.1",
+    "js-yaml": "^4.1.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.5.4"
   }
 }

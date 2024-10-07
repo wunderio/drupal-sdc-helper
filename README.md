@@ -4,7 +4,7 @@
 
 Developed during Learning Day at [wunder.io](https://wunder.io/).
 
-![preview](./assets/preview.gif)
+![preview](./assets/preview2.gif)
 
 ## Configuration
 
