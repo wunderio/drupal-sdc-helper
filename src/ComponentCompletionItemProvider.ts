@@ -23,11 +23,9 @@ export class ComponentCompletionItemProvider implements vscode.CompletionItemPro
       item.detail = 'Drupal SDC Component';
       item.documentation = new vscode.MarkdownString(`Path: ${component.path}`);
 
-      // Extract the part before the cursor that includes the machine name (like "vayla:")
       const machineNameMatch = linePrefix.match(/[A-Za-z0-9_-]+:$/);
       let insertText = component.id;
 
-      // If the machine name (like "vayla:") is already present, remove it from the inserted text
       if (machineNameMatch) {
         const typedPrefix = machineNameMatch[0];
         if (component.id.startsWith(typedPrefix)) {
