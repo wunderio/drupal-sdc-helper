@@ -8,5 +8,5 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ### Fixed
 
-- Fixed the autocomplete so that it would autosuggest only the components maching the already entered theme/module name prefix.
+- Fixed the autocomplete so that it would autosuggest only the components matching the already entered theme/module name prefix.
 - Fixed the continues re-appearing of autocomplete modal when the match has already been found & accepted.
