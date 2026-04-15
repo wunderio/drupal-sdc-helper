@@ -23,6 +23,9 @@ Index is regenrated when a component (.twig) is saved.
 ## Features
 
 - **Autocomplete Component IDs**: Get suggestions for component IDs while typing `include`, `embed`, or `include` statements in Twig files.
+- **Autocomplete Component Props**: Get suggestions for component props defined in `*.component.yml`.
+- **Autocomplete Component Slots**: Get suggestions for component slots defined in `*.component.yml`.
+- **Component Hover**: See `*.component.yml` details when hovering a component.
 - **Go-to Definition**: Use `Ctrl + Click` to navigate directly to the component's definition file.
 
 ## Usage

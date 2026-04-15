@@ -1,21 +1,21 @@
-import * as vscode from 'vscode';
-import * as path from 'path';
-
-export interface Component {
-  id: string;
-  path: string;
-}
+import * as vscode from "vscode";
+import * as path from "path";
+import { Component } from "./types/component";
 
 let componentCache: Component[] | null = null;
-const outputChannel = vscode.window.createOutputChannel('Drupal SDC');
+const outputChannel = vscode.window.createOutputChannel("Drupal SDC");
 
-export async function getComponentIndex(): Promise<Component[]> {
+export const getComponentIndex = async (): Promise<Component[]> => {
   if (componentCache) {
     return componentCache;
   }
 
-  const config = vscode.workspace.getConfiguration('drupalSDCHelper');
-  const componentDirs = config.get<string[]>('componentDirectories') || [];
+  if (!vscode.workspace.workspaceFolders || vscode.workspace.workspaceFolders.length === 0) {
+    return [];
+  }
+
+  const config = vscode.workspace.getConfiguration("drupalSDCHelper");
+  const componentDirs = config.get<string[]>("componentDirectories") || [];
 
   const components: Component[] = [];
 
@@ -24,7 +24,7 @@ export async function getComponentIndex(): Promise<Component[]> {
   for (const dirPattern of componentDirs) {
     const pattern = new vscode.RelativePattern(
       vscode.workspace.workspaceFolders![0],
-      path.join(dirPattern, '**/*.twig')
+      path.join(dirPattern, "**/*.twig"),
     );
     const files = await vscode.workspace.findFiles(pattern);
 
@@ -32,7 +32,7 @@ export async function getComponentIndex(): Promise<Component[]> {
       const componentPath = file.fsPath;
 
       // Exclude *.stories.twig files
-      if (componentPath.endsWith('.stories.twig')) {
+      if (componentPath.endsWith(".stories.twig")) {
         continue;
       }
 
@@ -49,30 +49,38 @@ export async function getComponentIndex(): Promise<Component[]> {
   outputChannel.appendLine(`Components: ${JSON.stringify(components, null, 2)}`);
   // If no components were found, show a message in the Output window
   if (components.length === 0) {
-    outputChannel.appendLine('No components found in the project');
+    outputChannel.appendLine("No components found in the project");
   }
   // outputChannel.show();
 
   return components;
-}
+};
 
-export function refreshComponentIndex() {
-  outputChannel.appendLine('Refreshing component index...');
+export const refreshComponentIndex = () => {
+  outputChannel.appendLine("Refreshing component index...");
   componentCache = null;
-  getComponentIndex().then(components => {
+  getComponentIndex().then((components) => {
     outputChannel.appendLine(`Component index refreshed with ${components.length} components.`);
   });
-}
+};
 
-function getComponentId(componentPath: string): string | null {
-  // Adjust this regex to match your project's structure
-  const match = componentPath.match(/(?:\/|\\)([a-zA-Z0-9_]+)(?:\/|\\)components(?:\/|\\)(.+?)(?:\/|\\)([^\/\\]+)\.twig$/);
+const getComponentId = (componentPath: string): string | null => {
+  /**
+   * Matches: /<module_name>/components/.../<component_name>.twig
+   * Captures named groups for moduleName and componentName
+   */
+  const COMPONENT_PATH_REGEX =
+    /(?:[/\\])(?<moduleName>[a-zA-Z0-9_]+)(?:[/\\])components(?:[/\\])(?:.+?)(?:[/\\])(?<componentName>[^/\\]+)\.twig$/;
 
-  if (match) {
-    const moduleName = match[1];
-    const componentName = match[3].replace(/\\/g, '/').replace(/^\d+-/, '').replace(/\.twig$/, '');
-    return `${moduleName}:${componentName}`;
+  const match = componentPath.match(COMPONENT_PATH_REGEX);
+
+  if (!match || !match.groups) {
+    return null;
   }
 
-  return null;
-}
+  const { moduleName, componentName: rawComponentName } = match.groups;
+
+  // Remove any digits from the raw component name
+  const componentName = rawComponentName.replace(/^\d+-/, "");
+  return `${moduleName}:${componentName}`;
+};

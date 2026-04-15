@@ -4,6 +4,21 @@ All notable changes to the "drupal-sdc-autocomplete" extension will be documente
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [1.1.0] - 2026-04-15
+
+### Added
+
+- Added autocomplete for component props and slots
+
+### Refactored
+
+- Moved in REGEX patterns into constants for better readability
+- Added named REGEX groups for more clear group selecting
+- Changed deprecated instances of `substr` to `substring`
+- Converted to arrow function syntax
+- Moved typing into a `types` directory
+- Moved common utilities into a `utils.ts` file
+
 ## [1.0.5] - 2024-10-25
 
 ### Fixed
