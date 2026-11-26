@@ -9,6 +9,46 @@ export interface Component {
 let componentCache: Component[] | null = null;
 const outputChannel = vscode.window.createOutputChannel('Drupal SDC');
 
+const HIDE_EMPTY_INDEX_HINT_KEY = 'drupalSDCHelper.hideEmptyIndexHint';
+let workspaceState: vscode.Memento | undefined;
+let emptyIndexHintShown = false;
+
+export function initComponentIndexer(context: vscode.ExtensionContext) {
+  workspaceState = context.workspaceState;
+}
+
+/**
+ * Tells the user that no components were found, which usually means that
+ * `componentDirectories` does not match the project's layout (for example a
+ * docroot other than `web/`, or components inside an install profile).
+ * Shown at most once per session, and never again for this workspace once
+ * dismissed with "Don't Show Again".
+ */
+async function showEmptyIndexHint() {
+  if (emptyIndexHintShown || workspaceState?.get<boolean>(HIDE_EMPTY_INDEX_HINT_KEY)) {
+    return;
+  }
+  emptyIndexHintShown = true;
+
+  const openSettings = 'Open Settings';
+  const showOutput = 'Show Output';
+  const dontShowAgain = "Don't Show Again";
+  const choice = await vscode.window.showWarningMessage(
+    'Drupal SDC Helper found no components. Check that "drupalSDCHelper.componentDirectories" matches where your components are.',
+    openSettings,
+    showOutput,
+    dontShowAgain,
+  );
+
+  if (choice === openSettings) {
+    vscode.commands.executeCommand('workbench.action.openSettings', 'drupalSDCHelper.componentDirectories');
+  } else if (choice === showOutput) {
+    outputChannel.show();
+  } else if (choice === dontShowAgain) {
+    workspaceState?.update(HIDE_EMPTY_INDEX_HINT_KEY, true);
+  }
+}
+
 export async function getComponentIndex(): Promise<Component[]> {
   if (componentCache) {
     return componentCache;
@@ -16,17 +56,23 @@ export async function getComponentIndex(): Promise<Component[]> {
 
   const config = vscode.workspace.getConfiguration('drupalSDCHelper');
   const componentDirs = config.get<string[]>('componentDirectories') || [];
+  const excludePatterns = config.get<string[]>('excludePatterns') || [];
+  // findFiles takes a single exclude glob, so combine them with {a,b}.
+  const exclude = excludePatterns.length > 1
+    ? `{${excludePatterns.join(',')}}`
+    : excludePatterns[0];
 
   const components: Component[] = [];
 
   outputChannel.appendLine(`Directories: ${JSON.stringify(componentDirs, null, 2)}`);
+  outputChannel.appendLine(`Excluded: ${JSON.stringify(excludePatterns, null, 2)}`);
 
   for (const dirPattern of componentDirs) {
     const pattern = new vscode.RelativePattern(
       vscode.workspace.workspaceFolders![0],
       path.join(dirPattern, '**/*.twig')
     );
-    const files = await vscode.workspace.findFiles(pattern);
+    const files = await vscode.workspace.findFiles(pattern, exclude);
 
     for (const file of files) {
       const componentPath = file.fsPath;
@@ -50,6 +96,7 @@ export async function getComponentIndex(): Promise<Component[]> {
   // If no components were found, show a message in the Output window
   if (components.length === 0) {
     outputChannel.appendLine('No components found in the project');
+    showEmptyIndexHint();
   }
   // outputChannel.show();
 

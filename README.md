@@ -20,6 +20,43 @@ Index is regenrated when a component (.twig) is saved.
 ]
 ```
 
+The defaults assume that the Drupal docroot is `web/` and that components live in custom themes and modules. If your project is set up differently, add your own paths. For example:
+
+- **A different docroot**, such as `docroot/`, `html/` or `src/web/`:
+
+  ```json
+  "drupalSDCHelper.componentDirectories": [
+    "docroot/themes/custom/*/components/**",
+    "docroot/modules/custom/*/components/**"
+  ]
+  ```
+
+- **Components inside an install profile:**
+
+  ```json
+  "drupalSDCHelper.componentDirectories": [
+    "web/profiles/contrib/my_profile/themes/custom/*/components/**",
+    "web/profiles/contrib/my_profile/modules/*/components/**"
+  ]
+  ```
+
+- **Any docroot**, using `**/` to match the path in front:
+
+  ```json
+  "drupalSDCHelper.componentDirectories": [
+    "**/themes/custom/*/components/**",
+    "**/modules/custom/*/components/**"
+  ],
+  "drupalSDCHelper.excludePatterns": [
+    "**/vendor/**",
+    "**/node_modules/**"
+  ]
+  ```
+
+  Broad patterns like these search the whole workspace, so use `drupalSDCHelper.excludePatterns` to skip large folders such as `vendor/` and `node_modules/`. By default nothing is excluded.
+
+If no components are found, the extension shows a notification with a shortcut to this setting. The **Drupal SDC** output channel lists the directories that were searched and the components that were found.
+
 ## Features
 
 - **Autocomplete Component IDs**: Get suggestions for component IDs while typing `include`, `embed`, or `include` statements in Twig files.
