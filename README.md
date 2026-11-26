@@ -20,6 +20,18 @@ Index is regenrated when a component (.twig) is saved.
 ]
 ```
 
+### Re-index delay
+
+Only `.twig` files inside `componentDirectories` are watched. When one of them changes, the index is regenerated after a short delay, and every new change restarts the timer. This way a burst of changes (for example `git checkout` or a build step) leads to a single re-index. The existing index stays in use until then.
+
+The delay is set in milliseconds with `drupalSDCHelper.reindexDelay` (default: `5000`):
+
+```json
+"drupalSDCHelper.reindexDelay": 5000
+```
+
+To re-index right away, run **Drupal SDC Helper: Refresh Component Index** from the Command Palette.
+
 ## Features
 
 - **Autocomplete Component IDs**: Get suggestions for component IDs while typing `include`, `embed`, or `include` statements in Twig files.
