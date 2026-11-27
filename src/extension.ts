@@ -30,13 +30,17 @@ export function activate(context: vscode.ExtensionContext) {
   // trigger a single re-index once things have settled. The existing index
   // stays in use until then.
   let reindexTimer: ReturnType<typeof setTimeout> | undefined;
+  const cancelScheduledRefresh = () => {
+    if (reindexTimer) {
+      clearTimeout(reindexTimer);
+      reindexTimer = undefined;
+    }
+  };
   const scheduleRefresh = () => {
     const delay = vscode.workspace
       .getConfiguration('drupalSDCHelper')
       .get<number>('reindexDelay', 5000);
-    if (reindexTimer) {
-      clearTimeout(reindexTimer);
-    }
+    cancelScheduledRefresh();
     reindexTimer = setTimeout(() => {
       reindexTimer = undefined;
       refreshComponentIndex();
@@ -70,21 +74,32 @@ export function activate(context: vscode.ExtensionContext) {
     }
   };
 
+  // Recreate the watchers and re-index right away. A pending debounced
+  // refresh is canceled so it doesn't trigger a second scan.
+  const rebuild = () => {
+    cancelScheduledRefresh();
+    createWatchers();
+    if (vscode.workspace.workspaceFolders?.length) {
+      refreshComponentIndex();
+    }
+  };
+
   createWatchers();
 
   const configListener = vscode.workspace.onDidChangeConfiguration((event) => {
     if (event.affectsConfiguration('drupalSDCHelper.componentDirectories')) {
-      createWatchers();
-      refreshComponentIndex();
+      rebuild();
     }
   });
 
-  context.subscriptions.push(configListener, {
+  // The watchers are bound to the first workspace folder, so recreate them
+  // if the folders change (for example when the first folder is removed).
+  const foldersListener = vscode.workspace.onDidChangeWorkspaceFolders(rebuild);
+
+  context.subscriptions.push(configListener, foldersListener, {
     dispose: () => {
       disposeWatchers();
-      if (reindexTimer) {
-        clearTimeout(reindexTimer);
-      }
+      cancelScheduledRefresh();
     },
   });
 
