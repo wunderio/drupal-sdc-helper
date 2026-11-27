@@ -46,6 +46,12 @@
             "web/modules/custom/*/components/**"
           ],
           "description": "An array of glob patterns to the component directories."
+        },
+        "drupalSDCHelper.reindexDelay": {
+          "type": "number",
+          "default": 5000,
+          "minimum": 0,
+          "description": "Milliseconds to wait after the last .twig file change before re-indexing components. Each new change restarts the timer."
         }
       }
     }
