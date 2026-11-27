@@ -45,7 +45,7 @@ async function showEmptyIndexHint() {
   } else if (choice === showOutput) {
     outputChannel.show();
   } else if (choice === dontShowAgain) {
-    workspaceState?.update(HIDE_EMPTY_INDEX_HINT_KEY, true);
+    await workspaceState?.update(HIDE_EMPTY_INDEX_HINT_KEY, true);
   }
 }
 
