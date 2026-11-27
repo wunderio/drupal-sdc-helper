@@ -2,10 +2,12 @@
 import * as vscode from 'vscode';
 import { ComponentCompletionItemProvider } from './ComponentCompletionItemProvider';
 import { ComponentDefinitionProvider } from './ComponentDefinitionProvider';
-import { refreshComponentIndex } from './ComponentIndexer';
+import { initComponentIndexer, refreshComponentIndex } from './ComponentIndexer';
 import { ComponentHoverProvider } from './ComponentHoverProvider';
 
 export function activate(context: vscode.ExtensionContext) {
+  initComponentIndexer(context);
+
   const completionProvider = vscode.languages.registerCompletionItemProvider(
     { language: 'twig', scheme: 'file' },
     new ComponentCompletionItemProvider(),

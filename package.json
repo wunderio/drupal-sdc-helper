@@ -46,6 +46,14 @@
             "web/modules/custom/*/components/**"
           ],
           "description": "An array of glob patterns to the component directories."
+        },
+        "drupalSDCHelper.excludePatterns": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional glob patterns for files and folders to skip when searching for components, for example \"**/vendor/**\". Useful together with broad component directory patterns such as \"**/themes/custom/*/components/**\"."
         }
       }
     }
